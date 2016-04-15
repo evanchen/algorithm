@@ -61,7 +61,7 @@ void select_sort(int* arr, int size)
 	}
 }
 
-//冒泡排序
+//冒泡排序, O(1+2+...+n-1) = O(n2)
 void bubble_sort(int* arr, int size)
 {
 	bool isinorder = true; //优化
@@ -137,6 +137,33 @@ void get_next(const char* sub, int next[])
 	}
 }
 
+//:TODO: get_next的另一种解法,找匹配的过程和kmp_substring一样,只不过是用前缀作为模式串
+void get_next2(const char* sub, int next[])
+{
+	int subLen = strlen(sub);
+	int i = 0;
+	int j = 1; //开始由子串本身第一个和第二个字符比较
+	while (j < subLen) {
+		if (sub[i] == sub[j]) {
+			i++; j++;
+			next[j-1] = i;
+		}
+		else { 
+			if (i == 0) 
+				j++;
+			else
+			{
+				if (i == next[j - 1]) { //当前失配,但失配后的下一个位置还是i的话,下次匹配必然还是要失配,失配就是意味着找失配位置的下一位next值
+					i = next[i - 1];
+				}
+				else {
+					i = next[j - 1]; //移动模式串
+				}
+			}
+		}
+	}
+}
+
 //kmp算法: 匹配失败时,在模式串sub里寻找最大长度子串的前缀后缀,不回溯主串位置,调整子串的下一个匹配位置
 //重点在如何获取next,从失配位置的上一位查找最大长度k共有前后缀子串,k+1就是sub子串下个要和主串当前匹配位置对比的位置
 int kmp_substring(const char* str, const char* sub, int pos,int next[])
@@ -154,7 +181,7 @@ int kmp_substring(const char* str, const char* sub, int pos,int next[])
 			if (j == 0) //到模式串的起点位置还是匹配失败,则移动主串
 				i++; 
 			else 
-				j = next[j-1];
+				j = next[j-1]; //移动模式串
 		}
 	}
 	if (j == subLen) return (i - j);
@@ -174,7 +201,8 @@ int main()
 	int len = strlen(sub);
 	int* next = (int*)malloc(len * sizeof (int));
 	memset(next, 0, len* sizeof(int));
-	get_next(sub, next);
+	//get_next(sub, next);
+	get_next2(sub, next);
 	for (int i = 0; i < len; i++) {
 		printf("%d,",next[i]);
 	}
