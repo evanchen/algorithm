@@ -81,7 +81,7 @@ void bubble_sort(int* arr, int size)
 //合并排序
 int* do_merge(int* arr1, int size1,int* arr2,int size2)
 {
-	int bpos1 =0, bpos2 = 0,
+	int bpos1 = 0, bpos2 = 0;
 	int* tmp = (int*)malloc((size1 + size2) * sizeof(int));
 	int i = 0;
 	while(bpos1 < size1 && bpos2 < size2) {
@@ -137,11 +137,11 @@ void merge_sort(int* arr, int size)
 }
 
 //合并排序优化
-void do_merge(int* arr, int first, int mid, int last, int* tmp)
+void do_merge2(int* arr, int first, int mid, int last, int* tmp)
 {
 	int bpos1 = first;
-	int epos1 = mid-1;
-	int bpos2 = mid;
+	int epos1 = mid;
+	int bpos2 = mid+1;
 	int i = 0;
 	while (bpos1 <= epos1 && bpos2 <= last) {
 		if (arr[bpos1] <= arr[bpos2]) {
@@ -166,9 +166,9 @@ void do_merge_sort2(int* arr, int first, int last, int* tmp)
 {
 	if (first < last) {
 		int mid = (first + last) / 2;
-		do_merge_sort2(arr, first, mid - 1, tmp);
-		do_merge_sort2(arr, mid, last, tmp);
-		do_merge(arr, first, mid, last, tmp);
+		do_merge_sort2(arr, first, mid, tmp);
+		do_merge_sort2(arr, mid+1, last, tmp);
+		do_merge2(arr, first, mid, last, tmp);
 	}
 }
 
@@ -177,6 +177,7 @@ void merge_sort2(int* arr, int size)
 	int* tmp = (int*)malloc(size * sizeof(int));
 	memset(tmp, 0, size*sizeof(int));
 	do_merge_sort2(arr, 0, size-1, tmp);
+	free(tmp);
 	print(arr, size);
 }
 
@@ -293,7 +294,7 @@ int kmp_substring(const char* str, const char* sub, int pos,int next[])
 int main()
 {
 	print(unsort_arr, SIZE);
-	merge_sort(unsort_arr, SIZE);
+	merge_sort2(unsort_arr, SIZE);
 	/*
 	char* str = "BBC ABCDAB ABCDABCDABDE";
 	char* sub = "ABCDABD";
