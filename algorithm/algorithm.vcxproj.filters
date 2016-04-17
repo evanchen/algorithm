@@ -19,4 +19,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bubble_sort.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="select_sort.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="insert_sort.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="merge_sort.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="kmp.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="all.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quick_sort.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
