@@ -5,7 +5,7 @@ int unsort_arr[SIZE] = { 5,1,3,6,9,5,10,4,7,2 };
 int main()
 {
 	print(unsort_arr, SIZE);
-	merge_sort2(unsort_arr, SIZE);
+	quick_sort(unsort_arr, SIZE);
 	/*
 	char* str = "BBC ABCDAB ABCDABCDABDE";
 	char* sub = "ABCDABD";
