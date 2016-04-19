@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="all.h" />
+    <ClInclude Include="binary_tree.h" />
     <ClInclude Include="bubble_sort.h" />
     <ClInclude Include="insert_sort.h" />
     <ClInclude Include="kmp.h" />

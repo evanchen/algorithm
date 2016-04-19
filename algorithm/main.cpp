@@ -5,7 +5,7 @@ int unsort_arr[SIZE] = { 5,1,3,6,9,5,10,4,7,2 };
 int main()
 {
 	print(unsort_arr, SIZE);
-	quick_sort(unsort_arr, SIZE);
+	//quick_sort(unsort_arr, SIZE);
 	/*
 	char* str = "BBC ABCDAB ABCDABCDABDE";
 	char* sub = "ABCDABD";
@@ -24,6 +24,7 @@ int main()
 	ret = kmp_substring(str,sub,0,next);
 	printf("%d %s\n", ret, &str[ret]);
 	*/
+	heap_sort(unsort_arr, SIZE);
 	std::cin.get();
 	return 0;
 }
