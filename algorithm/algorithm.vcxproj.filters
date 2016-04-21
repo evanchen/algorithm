@@ -44,7 +44,13 @@
     <ClInclude Include="select_sort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="binary_tree.h">
+    <ClInclude Include="binary_search_tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="btree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="heap_sort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

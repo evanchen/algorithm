@@ -24,7 +24,9 @@ int main()
 	ret = kmp_substring(str,sub,0,next);
 	printf("%d %s\n", ret, &str[ret]);
 	*/
-	heap_sort(unsort_arr, SIZE);
+	//heap_sort(unsort_arr, SIZE);
+	BTree* tree = BuildTree(unsort_arr, SIZE);
+	print_tree(tree->root, 30);
 	std::cin.get();
 	return 0;
 }

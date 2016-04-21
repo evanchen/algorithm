@@ -5,4 +5,5 @@
 #include"select_sort.h"
 #include"bubble_sort.h"
 #include"quick_sort.h"
-#include"binary_tree.h"
+#include"heap_sort.h"
+#include"binary_search_tree.h"
