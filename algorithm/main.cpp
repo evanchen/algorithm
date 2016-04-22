@@ -26,7 +26,7 @@ int main()
 	*/
 	//heap_sort(unsort_arr, SIZE);
 	BTree* tree = BuildTree(unsort_arr, SIZE);
-	print_tree(tree->root, 30);
+	print_tree(tree->root);
 	std::cin.get();
 	return 0;
 }

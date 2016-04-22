@@ -9,23 +9,24 @@ void AddNode(BTree* tree, int data)
 		tree->root->key = data;
 		return;
 	}
-	Node* parent = nullptr;
 	while (root) {
 		if (data == root->key) break;
 		if (data < root->key) {
 			if (!root->lchild) {
-				root->lchild = new Node();
-				root->lchild->parent = root;
-				root->lchild->key = data;
+				Node* node = new Node();
+				node->parent = root;
+				node->key = data;
+				root->lchild = node;
 				break;
 			}
 			root = root->lchild;
 		}
 		else {
 			if (!root->rchild) {
-				root->rchild = new Node();
-				root->rchild->parent = root;
-				root->rchild->key = data;
+				Node* node = new Node();
+				node->parent = root;
+				node->key = data;
+				root->rchild = node;
 				break;
 			}
 			root = root->rchild;
@@ -55,56 +56,53 @@ void RemoveNode(BTree* tree, Node* node)
 			tree->root = nullptr;
 			return;
 		}
-		_remove_relationship(node);
-		delete node;
-		return;
 	}
-	if (node->lchild && !node->rchild) { //has only left child, replace node by the child
-		node->lchild->parent = node->parent;
-		if (node->parent->lchild == node) {
-			node->parent->lchild = node->lchild;
+	else if (node->lchild && !node->rchild) { //has only left child, replace node by the child
+		Node* tarNode = node->lchild;
+		tarNode->parent = node->parent;
+		if (!tarNode->parent)
+			tree->root = tarNode;
+		else {
+			if (node->parent->lchild == node) 
+				node->parent->lchild = tarNode;
+			else if (node->parent->rchild == node)
+				node->parent->rchild = tarNode;
 		}
-		else if (node->parent->rchild == node) {
-			node->parent->rchild = node->lchild;
-		}
-		_remove_relationship(node);
-		delete node;
 	}
 	else if (node->rchild && !node->lchild) { //has only right child, replace node by the child
-		node->rchild->parent = node->parent;
-		if (node->parent->lchild == node) {
-			node->parent->lchild = node->rchild;
+		Node* tarNode = node->rchild;
+		tarNode->parent = node->parent;
+		if (!tarNode->parent)
+			tree->root = tarNode;
+		else {
+			if (node->parent->lchild == node) 
+				node->parent->lchild = tarNode;
+			else if (node->parent->rchild == node)
+				node->parent->rchild = tarNode;
 		}
-		else if (node->parent->rchild == node) {
-			node->parent->rchild = node->rchild;
-		}
-		_remove_relationship(node);
-		delete node;
 	}
 	else {
-		//has two children,find the min of the right child,replace node by the min
+		//有左右子树,从右子树查找最小的结点,替换要删除的结点,重设父子关系
 		Node* min = node->rchild;
-		while (min->lchild) {
-			min = min->lchild;
-		}
-		if (!min->rchild) { //已经是叶子了,直接替换
+		while (min->lchild) min = min->lchild;
+		if (!min->rchild)  //已经是叶子了,直接替换
 			_remove_relationship(min); //先移除当前关系
-		}
 		else {
 			//先把rchild替换min
 			min->rchild->parent = min->parent;
-			min->parent->rchild = min->rchild;
+			min->parent->lchild = min->rchild;
 			_remove_relationship(min);
 		}
 		min->parent = node->parent;
-		if (node->parent->lchild == node) {
+		if (node->parent->lchild == node) 
 			node->parent->lchild = min;
-		}
-		else if (node->parent->rchild == node) {
+		else if (node->parent->rchild == node) 
 			node->parent->rchild = min;
-		}
-		delete node;
+		min->lchild = node->lchild;
+		min->rchild = node->rchild;
 	}
+	_remove_relationship(node);
+	delete node;
 }
 
 Node* Search(BTree* tree, int data)
