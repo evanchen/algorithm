@@ -57,7 +57,7 @@ int partition2(int* arr, int bpos, int epos)
 void do_quick_sort(int* arr, int bpos, int epos)
 {
 	if (bpos >= epos) return;
-	int m = partition(arr, bpos, epos);
+	int m = partition2(arr, bpos, epos);
 	do_quick_sort(arr, bpos,m);
 	do_quick_sort(arr, m + 1,epos);
 }

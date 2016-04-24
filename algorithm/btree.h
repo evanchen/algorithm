@@ -27,14 +27,11 @@ void _print_tree(Node* node, int fillSize, int level, std::map< int, std::vector
 		Map[level] = std::vector<int>();
 	}
 	if (node) {
-		int addup = 2;
-		if (level % 2 == 0)
-			addup = 3;
 		if (node->lchild) {
-			_print_tree(node->lchild, fillSize - addup + 1, level + 1, Map, maxLevel);
+			_print_tree(node->lchild, fillSize - 4, level + 1, Map, maxLevel);
 		}
 		if (node->rchild) {
-			_print_tree(node->rchild, fillSize + addup, level + 1, Map, maxLevel);
+			_print_tree(node->rchild, fillSize + 4, level + 1, Map, maxLevel);
 		}
 		Map[level].push_back(node->key);
 		Map[level].push_back(fillSize);
@@ -53,6 +50,7 @@ void print_tree(Node* node)
 			int gap = 0;
 			for (int i = 0; i < it->second.size(); i += 2) {
 				gap = it->second.at(i + 1) - gap;
+				//if (gap < 2) gap = 2;
 				std::cout << std::setw(gap) << it->second.at(i);
 				gap = it->second.at(i + 1);
 			}

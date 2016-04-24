@@ -48,6 +48,19 @@ void _remove_relationship(Node* node) {
 	node->rchild = nullptr;
 }
 
+void MakeRelation(BTree* tree, Node* tarNode, Node* node)
+{
+	tarNode->parent = node->parent;
+	if (!tarNode->parent)
+		tree->root = tarNode;
+	else {
+		if (node->parent->lchild == node)
+			node->parent->lchild = tarNode;
+		else if (node->parent->rchild == node)
+			node->parent->rchild = tarNode;
+	}
+}
+
 void RemoveNode(BTree* tree, Node* node)
 {
 	if (!node->lchild && !node->rchild) { //it is a leaf,remove it from the tree
@@ -59,27 +72,11 @@ void RemoveNode(BTree* tree, Node* node)
 	}
 	else if (node->lchild && !node->rchild) { //has only left child, replace node by the child
 		Node* tarNode = node->lchild;
-		tarNode->parent = node->parent;
-		if (!tarNode->parent)
-			tree->root = tarNode;
-		else {
-			if (node->parent->lchild == node) 
-				node->parent->lchild = tarNode;
-			else if (node->parent->rchild == node)
-				node->parent->rchild = tarNode;
-		}
+		MakeRelation(tree, tarNode, node);
 	}
 	else if (node->rchild && !node->lchild) { //has only right child, replace node by the child
 		Node* tarNode = node->rchild;
-		tarNode->parent = node->parent;
-		if (!tarNode->parent)
-			tree->root = tarNode;
-		else {
-			if (node->parent->lchild == node) 
-				node->parent->lchild = tarNode;
-			else if (node->parent->rchild == node)
-				node->parent->rchild = tarNode;
-		}
+		MakeRelation(tree, tarNode, node);
 	}
 	else {
 		//有左右子树,从右子树查找最小的结点,替换要删除的结点,重设父子关系
@@ -89,17 +86,15 @@ void RemoveNode(BTree* tree, Node* node)
 			_remove_relationship(min); //先移除当前关系
 		else {
 			//先把rchild替换min
-			min->rchild->parent = min->parent;
-			min->parent->lchild = min->rchild;
+			Node* tarNode = min->rchild;
+			MakeRelation(tree, tarNode, min);
 			_remove_relationship(min);
 		}
-		min->parent = node->parent;
-		if (node->parent->lchild == node) 
-			node->parent->lchild = min;
-		else if (node->parent->rchild == node) 
-			node->parent->rchild = min;
+		MakeRelation(tree, min, node);
 		min->lchild = node->lchild;
 		min->rchild = node->rchild;
+		min->lchild->parent = min;
+		min->rchild->parent = min;
 	}
 	_remove_relationship(node);
 	delete node;
@@ -126,4 +121,19 @@ BTree* BuildTree(int* arr, int size)
 		AddNode(tree, arr[i]);
 	}
 	return tree;
+}
+
+void TestTree(int* arr,int size)
+{
+	BTree* tree = BuildTree(arr, size);
+	print_tree(tree->root);
+	for (int i = 0; i < size; i++)
+	{
+		Node* node = Search(tree, arr[i]);
+		if (node) {
+			printf("%d,", node->key);
+			RemoveNode(tree, node);
+			print_tree(tree->root);
+		}
+	}
 }

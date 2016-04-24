@@ -1,7 +1,7 @@
 #include<iostream>
 #include"all.h"
 const int SIZE = 10;
-int unsort_arr[SIZE] = { 5,1,3,6,9,5,10,4,7,2 };
+int unsort_arr[SIZE] = { 5,1,3,6,9,5,10,4,7,5 };
 int main()
 {
 	print(unsort_arr, SIZE);
@@ -25,8 +25,7 @@ int main()
 	printf("%d %s\n", ret, &str[ret]);
 	*/
 	//heap_sort(unsort_arr, SIZE);
-	BTree* tree = BuildTree(unsort_arr, SIZE);
-	print_tree(tree->root);
+	TestTree(unsort_arr, SIZE);
 	std::cin.get();
 	return 0;
 }
